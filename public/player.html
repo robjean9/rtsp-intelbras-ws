@@ -1,0 +1,76 @@
+<html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<script src='https://cdn.jsdelivr.net/npm/rtsp-relay@1.6.1/browser/index.js'></script>
+<style>
+  .col-6{
+    padding: 0;
+    margin: 0;
+  }
+  .row{
+    height: 50%;
+  }
+</style>
+<body id="body">
+  <div class="row">
+    <div class="col-6">
+      <canvas id='canvas' style="width: 100%;height:100%;"></canvas>
+    </div>
+    <div class="col-6">
+      <canvas id='canvas2' style="width: 100%;height:100%;"></canvas>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <canvas id='canvas3' style="width: 100%;height:100%;"></canvas>
+    </div>
+    <div class="col-6">
+      <canvas id='canvas4' style="width: 100%;height:100%;"></canvas>
+    </div>
+  </div>
+
+
+
+
+  <script>
+    loadPlayer({
+      url: 'ws://localhost:2000/api/stream/2',
+      canvas: document.getElementById('canvas'),
+    });
+  
+    loadPlayer({
+      url: 'ws://localhost:2000/api/stream/4',
+      canvas: document.getElementById('canvas3')
+    });
+    loadPlayer({
+      url: 'ws://localhost:2000/api/stream/10',
+      canvas: document.getElementById('canvas4')
+    });
+    loadPlayer({
+      url: 'ws://localhost:2000/api/stream/3',
+      canvas: document.getElementById('canvas2'),
+    });
+    function requestFullScreen(element) {
+      // Supports most browsers and their versions.
+      var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+      if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+      } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+          wscript.SendKeys("{F11}");
+        }
+      }
+    }
+    // resizeToParent(document.getElementById('canvas'));
+    document.getElementById('canvas').addEventListener('click', () => {
+      requestFullScreen(document.getElementById('body'));
+    })
+  </script>
+
+</body>
+
+
+</html>
